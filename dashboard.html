@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Napnox — Research Dashboard</title>
+  <meta name="description"
+    content="Your full-power research workspace. Search, organize, and generate AI reports from your captured snippets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+  <!-- ─── Sidebar ──────────────────────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="url(#sg1)" stroke-width="1.5" stroke-linejoin="round"
+            fill="url(#sg1)" fill-opacity="0.2" />
+          <path d="M2 17l10 5 10-5" stroke="url(#sg1)" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M2 12l10 5 10-5" stroke="url(#sg1)" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <defs>
+            <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#8b5cf6" />
+              <stop offset="100%" stop-color="#06b6d4" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Napnox <span class="pro-badge" id="pro-badge" style="display:none">PRO</span></span>
+        <span class="brand-sub">Research OS</span>
+      </div>
+    </div>
+
+    <div class="sidebar-user" id="sidebar-user">
+      <div class="user-avatar" id="user-avatar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      </div>
+      <div class="user-info">
+        <div class="user-name" id="user-name">Guest User</div>
+        <div class="user-status" id="user-tier">Free Tier</div>
+      </div>
+      <button class="user-action-btn" id="btn-google-login" title="Sign in with Google">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M13.8 12H3" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="inbox" id="nav-inbox">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+          <path
+            d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z" />
+        </svg>
+        <span>Inbox</span>
+        <span class="nav-badge" id="nav-badge">0</span>
+      </button>
+
+      <button class="nav-item" data-view="starred" id="nav-starred">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polygon
+            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+        <span>Starred</span>
+      </button>
+
+      <button class="nav-item" data-view="ai" id="nav-ai">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a10 10 0 110 20A10 10 0 0112 2z" />
+          <path d="M12 8v4l3 3" />
+          <circle cx="12" cy="12" r="1" fill="currentColor" />
+        </svg>
+        <span>AI Studio</span>
+        <span class="nav-new">NEW</span>
+      </button>
+
+      <button class="nav-item" data-view="export" id="nav-export">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        <span>Export</span>
+      </button>
+
+      <button class="nav-item" data-view="settings" id="nav-settings">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+        </svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-stats">
+      <div class="stat-row">
+        <span class="stat-label">Total snippets</span>
+        <span class="stat-value" id="stat-total">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Words captured</span>
+        <span class="stat-value" id="stat-words">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Sites covered</span>
+        <span class="stat-value" id="stat-sites">0</span>
+      </div>
+      <div class="stat-row ai-usage-row" id="ai-usage-row">
+        <span class="stat-label">AI Reports left</span>
+        <span class="stat-value" id="stat-ai-remaining">5/5</span>
+      </div>
+    </div>
+
+    <div class="sidebar-upgrade" id="sidebar-upgrade">
+      <div class="upgrade-card">
+        <div class="upgrade-title">Unlock unlimited AI</div>
+        <div class="upgrade-desc">Get sync, Notion export & premium models.</div>
+        <button class="upgrade-btn" onclick="document.getElementById('nav-settings').click()">Go Pro</button>
+      </div>
+    </div>
+
+    <div class="sidebar-user" id="sidebar-user-trigger">
+      <div class="user-avatar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      </div>
+      <div class="user-info">
+        <div class="user-name">Guest User</div>
+        <div class="user-status">Sign in for Sync</div>
+      </div>
+      <button class="user-action-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="sidebar-shortcut">
+      <kbd>Alt</kbd><span>+</span><kbd>S</kbd>
+      <span class="shortcut-label">Capture</span>
+    </div>
+  </aside>
+
+  <!-- ─── Main Content ──────────────────────────────────────────────────────── -->
+  <main class="main" id="main">
+
+    <!-- ══════════ INBOX VIEW ══════════ -->
+    <div class="view active" id="view-inbox">
+      <div class="view-header">
+        <div class="view-title-wrap">
+          <h1 class="view-title">Research Inbox</h1>
+          <span class="view-sub" id="inbox-count">0 snippets</span>
+        </div>
+        <div class="inbox-tabs" id="inbox-tabs">
+          <button class="inbox-tab active" id="tab-snippets" data-tab="snippets">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+            Clips
+          </button>
+          <button class="inbox-tab" id="tab-highlights" data-tab="highlights">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+            Highlights
+          </button>
+        </div>
+        <div class="view-controls">
+          <div class="search-bar" id="db-search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input id="db-search" type="text" placeholder="Search snippets, URLs, titles…" autocomplete="off"
+              spellcheck="false">
+            <kbd class="search-hint">⌘K</kbd>
+          </div>
+          <select id="folder-filter" class="folder-filter-select">
+            <option value="">All Folders</option>
+          </select>
+          <div class="control-group">
+            <button class="ctrl-btn active" id="db-view-grid" title="Grid view">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+            </button>
+            <button class="ctrl-btn" id="db-view-list" title="List view">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="6" x2="21" y2="6" />
+                <line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <circle cx="3" cy="6" r="1" fill="currentColor" />
+                <circle cx="3" cy="12" r="1" fill="currentColor" />
+                <circle cx="3" cy="18" r="1" fill="currentColor" />
+              </svg>
+            </button>
+            <button class="ctrl-btn" id="db-group-toggle" title="Group by site">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <path d="M17 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+              </svg>
+            </button>
+          </div>
+          <button class="btn-primary" id="db-select-all">Select All</button>
+        </div>
+      </div>
+
+      <div class="tag-strip-wrapper" id="tag-strip-wrapper"
+        style="position:relative; display:none; align-items:center; border-bottom: 1px solid var(--border);">
+        <button class="tag-scroll-btn left" id="tag-scroll-left"
+          style="display:none; position:absolute; left:8px; z-index:10; background:var(--bg-elevated); border:1px solid var(--border); border-radius:50%; width:28px; height:28px; cursor:pointer; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.3); color:var(--text-primary);">&lt;</button>
+        <div class="tag-strip" id="tag-strip" style="border-bottom:none; flex:1; scroll-behavior: smooth;"></div>
+        <button class="tag-scroll-btn right" id="tag-scroll-right"
+          style="display:none; position:absolute; right:8px; z-index:10; background:var(--bg-elevated); border:1px solid var(--border); border-radius:50%; width:28px; height:28px; cursor:pointer; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.3); color:var(--text-primary);">&gt;</button>
+      </div>
+
+      <div class="db-batch-bar" id="db-batch-bar">
+        <div class="db-batch-left">
+          <button class="db-batch-btn" id="db-batch-select-all">Select All</button>
+          <span class="db-batch-count" id="db-batch-count">0 selected</span>
+        </div>
+        <div class="db-batch-actions">
+          <button class="db-batch-btn" id="db-batch-full-view">👁️ Full View</button>
+          <button class="db-batch-btn" id="db-batch-star">⭐ Star</button>
+          <button class="db-batch-btn" id="db-batch-folder">📁 Folder</button>
+          <button class="db-batch-btn" id="db-batch-ai">🤖 Ask AI Studio</button>
+          <button class="db-batch-btn" id="db-batch-markdown">📄 Markdown</button>
+          <button class="db-batch-btn" id="db-batch-download">📥 Download</button>
+          <button class="db-batch-btn db-batch-btn--danger" id="db-batch-delete">🗑 Delete</button>
+        </div>
+        <button class="db-batch-clear" id="db-batch-clear">Clear</button>
+      </div>
+
+      <div class="calendar-view-container" id="clips-calendar-container"></div>
+      <div class="calendar-view-container" id="highlights-calendar-container" style="display:none"></div>
+
+      <div class="calendar-filter-header" id="calendar-filter-header" style="display:none;">
+        <button class="btn-back-calendar" id="btn-back-calendar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Calendar
+        </button>
+        <span class="filter-header-date" id="filter-header-date"></span>
+      </div>
+
+      <div class="snippet-grid" id="snippet-grid" style="display:none"></div>
+      <div class="snippet-grid" id="highlights-grid" style="display:none"></div>
+
+      <div class="db-empty" id="db-empty" style="display:none">
+        <div class="db-empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="url(#de1)" stroke-width="1.5" fill="url(#de1)"
+              fill-opacity="0.15" />
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="url(#de1)" stroke-width="1.5" />
+            <defs>
+              <linearGradient id="de1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b5cf6" />
+                <stop offset="100%" stop-color="#06b6d4" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h2 class="db-empty-title">No snippets yet</h2>
+        <p class="db-empty-sub">Select text on any page and press <kbd>Alt + S</kbd> to start capturing</p>
+      </div>
+    </div>
+
+    <!-- ══════════ STARRED VIEW ══════════ -->
+    <div class="view" id="view-starred">
+      <div class="view-header">
+        <div class="view-title-wrap">
+          <h1 class="view-title">Starred</h1>
+          <span class="view-sub">Your saved highlights</span>
+        </div>
+      </div>
+      <div class="snippet-grid" id="starred-grid"></div>
+      <div class="db-empty" id="starred-empty" style="display:none">
+        <div class="db-empty-icon">⭐</div>
+        <h2 class="db-empty-title">No starred snippets</h2>
+        <p class="db-empty-sub">Click the star icon on any snippet to save it here</p>
+      </div>
+    </div>
+
+    <!-- ══════════ AI STUDIO VIEW ══════════ -->
+    <div class="view" id="view-ai">
+      <div class="view-header">
+        <div class="view-title-wrap">
+          <h1 class="view-title">AI Studio</h1>
+          <span class="view-sub">Generate reports from your research</span>
+        </div>
+      </div>
+
+      <div class="ai-layout">
+        <!-- Left: chat history and snippet selector -->
+        <!-- Left: chat history and snippet selector accordion -->
+        <div class="ai-left">
+          <!-- Panel 1: Chat History -->
+          <div class="ai-accordion-panel active" id="ai-panel-chat-history">
+            <div class="ai-accordion-header" id="ai-hdr-chat-history">
+              <div class="ai-hdr-title">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                <span>Chat History</span>
+              </div>
+              <div class="ai-hdr-actions">
+                <button class="ai-new-chat-btn" id="ai-new-chat">New Chat</button>
+                <span class="ai-chevron">▲</span>
+              </div>
+            </div>
+            <div class="ai-accordion-body" id="ai-body-chat-history">
+              <div class="ai-chat-history" id="ai-chat-history">
+                <!-- Chat history populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel 2: Context Accordion (Clips & Highlights) -->
+          <div class="ai-accordion-panel" id="ai-panel-context">
+            <div class="ai-accordion-header" id="ai-hdr-context">
+              <!-- Line 1: Context title, count, and Full View button -->
+              <div class="ai-hdr-title">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M3 9h18M9 21V9" />
+                </svg>
+                <span>Context</span>
+                <span class="ai-snippet-count" id="ai-snippet-count">0 selected</span>
+              </div>
+              <div class="ai-hdr-actions">
+                <button class="ai-context-full-btn" id="ai-context-full-btn">👁️ Full View</button>
+                <span class="ai-chevron">▼</span>
+              </div>
+            </div>
+            <div class="ai-accordion-body" id="ai-body-context">
+              <!-- Line 2: Clips & Highlights Tabs -->
+              <div class="ai-context-tabs">
+                <button class="ai-context-tab active" data-tab="clips">📄 Clips</button>
+                <button class="ai-context-tab" data-tab="highlights">✏️ Highlights</button>
+              </div>
+
+              <!-- Below: Snippets list -->
+              <div class="ai-snippets-list" id="ai-snippets-list">
+                <div class="ai-empty-state">Select items below to add as AI context</div>
+              </div>
+
+              <!-- Context controls -->
+              <div class="ai-context-controls">
+                <button class="ai-ctrl-btn" id="ai-select-all">Select All</button>
+                <button class="ai-ctrl-btn" id="ai-clear-all">Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: chat interface -->
+        <div class="ai-right">
+          <div class="ai-config-bar">
+            <div
+              style="font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">
+              Powered by Pro Napnox AI
+            </div>
+          </div>
+
+          <div class="ai-chat-container" id="ai-chat-container">
+            <div class="ai-messages" id="ai-messages">
+              <div class="ai-welcome-message">
+                <h3>Welcome to Napnox AI Studio</h3>
+                <p>Select some snippets from the left panel to use as context, then start chatting with AI.</p>
+                <p>You can ask for summaries, analysis, comparisons, or generate reports.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-input-wrap" id="ai-input-wrap">
+            <div class="ai-input-bar" id="ai-input-bar">
+              <textarea id="ai-chat-input" class="ai-input"
+                placeholder="Message Napnox AI... (e.g. 'Summarize these snippets', 'Find key insights', 'Compare these sources')"
+                rows="1" spellcheck="false"></textarea>
+              <button class="ai-submit" id="ai-send-btn" title="Send message">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ EXPORT VIEW ══════════ -->
+    <div class="view" id="view-export">
+      <div class="view-header">
+        <div class="view-title-wrap">
+          <h1 class="view-title">Export</h1>
+          <span class="view-sub">Download your research in any format</span>
+        </div>
+      </div>
+      <div class="export-grid">
+        <div class="export-card" id="exp-markdown">
+          <div class="export-card-icon">📝</div>
+          <div class="export-card-name">Markdown</div>
+          <div class="export-card-desc">Clean .md file with all snippets, sources, and metadata preserved.</div>
+          <button class="export-card-btn" data-format="markdown">Export All</button>
+        </div>
+        <div class="export-card" id="exp-json">
+          <div class="export-card-icon">{ }</div>
+          <div class="export-card-name">JSON</div>
+          <div class="export-card-desc">Structured data export. Perfect for developers or importing into other tools.
+          </div>
+          <button class="export-card-btn" data-format="json">Export All</button>
+        </div>
+        <div class="export-card" id="exp-csv">
+          <div class="export-card-icon">📊</div>
+          <div class="export-card-name">CSV</div>
+          <div class="export-card-desc">Spreadsheet-friendly export for analysis in Excel or Google Sheets.</div>
+          <button class="export-card-btn" data-format="csv">Export All</button>
+        </div>
+        <div class="export-card export-card--pro">
+          <div class="export-card-icon"> </div>
+          <div class="export-card-name">Notion <span class="card-pro-tag">PRO</span></div>
+          <div class="export-card-desc">Push directly to a Notion database via API integration.</div>
+          <button class="export-card-btn" data-format="notion">Sync to Notion</button>
+        </div>
+        <div class="export-card export-card--pro">
+          <div class="export-card-icon">📄</div>
+          <div class="export-card-name">Google Docs <span class="card-pro-tag">PRO</span></div>
+          <div class="export-card-desc">Generate a Google Doc from your research with one click.</div>
+          <button class="export-card-btn" data-format="google-docs">Sync to GDocs</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ SETTINGS VIEW ══════════ -->
+    <div class="view" id="view-settings">
+      <div class="view-header">
+        <div class="view-title-wrap">
+          <h1 class="view-title">Settings</h1>
+          <span class="view-sub">Configure Napnox to your workflow</span>
+        </div>
+      </div>
+      <div class="settings-groups">
+        <div class="settings-group">
+          <div class="settings-group-title">Subscription Plans</div>
+          <div class="plans-grid">
+            <div class="plan-card active" id="plan-free">
+              <div class="plan-name">Starter</div>
+              <div class="plan-price">$0<span>/mo</span></div>
+              <ul class="plan-features">
+                <li>5 AI Reports / day</li>
+                <li>Local Storage only</li>
+                <li>MD/CSV Export</li>
+              </ul>
+              <button class="plan-btn" disabled>Current Plan</button>
+            </div>
+            <div class="plan-card pro" id="plan-pro">
+              <div class="plan-badge">POPULAR</div>
+              <div class="plan-name">Pro</div>
+              <div class="plan-price">$8<span>/mo</span></div>
+              <ul class="plan-features">
+                <li>Unlimited AI Reports</li>
+                <li>Notion & GDocs Sync</li>
+                <li>Cloud Backup</li>
+                <li>Premium Models</li>
+              </ul>
+              <button class="plan-btn upgrade-btn" data-format="pro-plan">Upgrade to Pro</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">AI Configuration</div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>AI Model</span>
+              <span class="setting-desc">Choose which AI model powers your reports</span>
+            </div>
+            <select class="setting-select" id="setting-provider">
+              <option value="local:nvidia/nemotron-3-super-120b-a12b:free">Local: Nemotron 120B Free ⭐ (Local API)</option>
+              <option value="llama-3.1-8b-instant">Groq: Llama 3.1 8B Instant ⭐ (Primary)</option>
+              <option value="llama-3.3-70b-versatile">Groq: Llama 3.3 70B Versatile (Fallback)</option>
+              <option value="google/gemini-2.0-flash-exp:free">Google: Gemini 2.0 Flash</option>
+              <option value="meta-llama/llama-3.1-8b-instruct:free">Meta: Llama 3.1 8B</option>
+              <option value="anthropic/claude-3.5-sonnet">OpenRouter: Claude 3.5 Sonnet</option>
+              <option value="openrouter/auto">Auto (Best Available)</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>AI Studio API Key</span>
+              <span class="setting-desc">
+                Required. Get a free Groq key at
+                <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>.
+                Keys from OpenRouter, OpenAI and Anthropic are auto-detected too.
+              </span>
+              <span class="setting-desc" id="ai-key-status"></span>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="password" class="setting-input" id="setting-openrouter-key" placeholder="gsk_...">
+              <button class="db-batch-btn" id="setting-test-ai" style="white-space:nowrap;">Test</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Appearance</div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Theme</span>
+              <span class="setting-desc">Choose your preferred interface style</span>
+            </div>
+            <select class="setting-select" id="setting-theme">
+              <option value="system">System Preference</option>
+              <option value="light">Light Mode</option>
+              <option value="dark">Dark Mode</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Capture</div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Shortcut</span>
+              <span class="setting-desc">Default capture shortcut (change in chrome://extensions/shortcuts)</span>
+            </div>
+            <kbd class="setting-kbd">Alt + S</kbd>
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Show fly animation</span>
+              <span class="setting-desc">Visual confirmation after capture</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-animation" checked>
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Auto-convert to Markdown</span>
+              <span class="setting-desc">Preserve tables, lists, and formatting</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-markdown" checked>
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Data</div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Clear all data</span>
+              <span class="setting-desc">Permanently delete all snippets from local storage</span>
+            </div>
+            <button class="setting-btn setting-btn--danger" id="setting-clear-all">Clear All Data</button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Storage used</span>
+              <span class="setting-desc">Chrome local storage usage</span>
+            </div>
+            <span class="setting-value" id="setting-storage">Calculating…</span>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Integrations (Pro)</div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Notion Token</span>
+              <span class="setting-desc">Enter your Notion Integration Token</span>
+            </div>
+            <input type="password" class="setting-input" id="setting-notion-token" placeholder="secret_xxxx...">
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Notion Database ID</span>
+              <span class="setting-desc">The ID of your research database</span>
+            </div>
+            <input type="text" class="setting-input" id="setting-notion-db" placeholder="database_id...">
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Google Docs Folder ID</span>
+              <span class="setting-desc">Where your research docs will be saved</span>
+            </div>
+            <input type="text" class="setting-input" id="setting-gdocs-folder" placeholder="folder_id...">
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Team Sharing</div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Workspace ID</span>
+              <span class="setting-desc">Join a team workspace to share snippets in real-time</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex:1;max-width:280px">
+              <input type="text" class="setting-input" id="setting-workspace-id" placeholder="my-team-workspace"
+                style="flex:1">
+              <button class="setting-btn" id="setting-join-workspace">Join</button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Sync Status</span>
+            </div>
+            <span class="setting-value" id="setting-sync-status">Not connected</span>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Status</span>
+              <span class="setting-desc">Your current subscription tier</span>
+            </div>
+            <span class="setting-value" id="setting-license-status">Free Tier</span>
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>Pro License Key</span>
+              <span class="setting-desc">Enter your key to unlock Pro features</span>
+            </div>
+            <div class="license-input-wrap">
+              <input type="text" class="setting-input" id="setting-license-key" placeholder="PRO-XXXX-XXXX">
+              <button class="setting-btn" id="setting-verify-license">Verify</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ─── Snippet Detail Modal ─────────────────────────────────────────────── -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="snippet-modal">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <img class="modal-favicon" id="modal-favicon" src="" alt="">
+          <div>
+            <div class="modal-title" id="modal-title"></div>
+            <a class="modal-source" id="modal-source" href="#" target="_blank" rel="noopener"></a>
+          </div>
+        </div>
+        <div class="modal-header-actions">
+          <button class="modal-action-btn" id="modal-ask-ai" title="Add to AI Context"
+            style="width: auto; padding: 0 10px; font-size: 11px; font-weight: 600; color: var(--accent); border: 1px solid rgba(139, 92, 246, 0.3);">
+            🤖 Ask AI Studio
+          </button>
+          <button class="modal-action-btn" id="modal-star">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+          </button>
+          <button class="modal-action-btn" id="modal-copy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+            </svg>
+          </button>
+          <button class="modal-close" id="modal-close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-tab-bar" id="modal-tab-bar" style="display:none;">
+        <button class="modal-tab active" id="modal-tab-clips" data-modal-tab="clips">📄 Clips</button>
+        <button class="modal-tab" id="modal-tab-highlights" data-modal-tab="highlights">✏️ Highlights</button>
+        <span class="modal-tab-count" id="modal-tab-count"></span>
+      </div>
+      <div class="modal-meta" id="modal-meta"></div>
+      <div class="modal-body">
+        <div id="modal-screenshot-wrap" style="display:none; margin-bottom: 16px;">
+          <img id="modal-screenshot" src=""
+            style="max-width: 100%; border-radius: 4px; border: 1px solid var(--border);">
+        </div>
+        <pre class="modal-content" id="modal-content"></pre>
+        <div class="modal-note-wrap">
+          <div class="modal-section-title">Notes</div>
+          <textarea class="modal-note" id="modal-note" placeholder="Add a note…" rows="2"></textarea>
+          <button class="modal-btn" id="modal-save-note"
+            style="margin-top: 8px; width: auto; align-self: flex-end;">Save Note</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="modal-footer-nav" id="modal-slider-nav" style="display:none;">
+          <button class="modal-nav-btn" id="modal-prev">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Prev
+          </button>
+          <span id="modal-counter"
+            style="font-size:12px; color:var(--text-muted); min-width: 40px; text-align:center;">1 / 1</span>
+          <button class="modal-nav-btn" id="modal-next">
+            Next
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-footer-actions">
+          <button class="modal-btn modal-btn--danger" id="modal-delete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="db-toast" id="db-toast"></div>
+
+  <!-- ★ FIXED: Single set of script tags (no duplicates) -->
+  <script src="lib/marked.min.js"></script>
+  <script src="lib/fuse.min.js"></script>
+  <script src="dashboard.js"></script>
+
+  <!-- Checkout Overlay -->
+  <div class="checkout-overlay" id="checkout-overlay" style="display:none">
+    <div class="checkout-modal">
+      <div class="checkout-header">
+        <div class="checkout-brand">Napnox Pay</div>
+        <button class="checkout-close" id="checkout-close">&times;</button>
+      </div>
+      <div class="checkout-body">
+        <div class="checkout-price">$8.00<span>/mo</span></div>
+        <div class="checkout-plan">Napnox Pro Subscription</div>
+        <ul style="font-size:13px;color:var(--text-secondary);margin:16px 0;padding-left:20px;line-height:2">
+          <li>Unlimited AI Reports</li>
+          <li>Notion &amp; Google Docs Sync</li>
+          <li>Team Sharing (Firebase)</li>
+          <li>Visual Capture Screenshots</li>
+          <li>Premium AI Models</li>
+        </ul>
+        <div class="checkout-form">
+          <div class="form-group">
+            <label>Card Number</label>
+            <div class="fake-input">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4242
+            </div>
+          </div>
+        </div>
+        <button class="checkout-submit" id="checkout-submit">Pay with Stripe</button>
+        <div class="checkout-secure">&#128274; Secure 256-bit SSL encrypted payment</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Provider Auth Overlay -->
+  <div id="login-overlay" class="auth-overlay" style="display:none;">
+    <div class="auth-modal">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <h3 class="auth-title">Welcome to Napnox</h3>
+        <p class="auth-subtitle">Sign in to sync your research across devices</p>
+      </div>
+
+      <div id="auth-view-social">
+        <div class="auth-providers">
+          <button class="auth-provider-btn google" id="login-google">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path fill="#EA4335"
+                d="M12.48 10.92v3.28h7.84c-.24 1.84-.92 3.4-2.12 4.64-1.2 1.2-3 2.12-5.72 2.12-4.24 0-7.8-3.56-7.8-7.8s3.56-7.8 7.8-7.8c2.6 0 4.56 1.04 6 2.44l2.28-2.28C18.6 3.36 15.76 2 12.48 2 6.68 2 2 6.68 2 12.48S6.68 22.96 12.48 22.96c3.12 0 5.68-1.04 7.72-3.12 2.12-2.12 2.84-5.04 2.84-7.44 0-.64-.04-1.2-.12-1.84h-10.44z" />
+            </svg>
+            Continue with Google
+          </button>
+          <button class="auth-provider-btn github" id="login-github">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.164 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z" />
+            </svg>
+            Continue with GitHub
+          </button>
+          <button class="auth-provider-btn microsoft" id="login-microsoft">
+            <svg width="18" height="18" viewBox="0 0 23 23">
+              <path fill="#f3f3f3" d="M0 0h11v11H0z" />
+              <path fill="#f3f3f3" d="M12 0h11v11H12z" />
+              <path fill="#f3f3f3" d="M0 12h11v11H0z" />
+              <path fill="#f3f3f3" d="M12 12h11v11H12z" />
+            </svg>
+            Continue with Microsoft
+          </button>
+          <button class="auth-provider-btn discord" id="login-discord">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
+            </svg>
+            Continue with Discord
+          </button>
+          <button class="auth-provider-btn yahoo" id="login-yahoo">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path fill="#6001d2"
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+              <path fill="#6001d2" d="M12.5 7.5L10 12.5l-2.5-5h-2l3.5 7v4h2v-4l3.5-7z" />
+            </svg>
+            Continue with Yahoo
+          </button>
+        </div>
+      </div>
+
+      <p class="auth-footer">By continuing, you agree to Napnox's <a href="#">Terms</a> and <a href="#">Privacy
+          Policy</a>.</p>
+      <button class="auth-close-btn" id="login-cancel">Skip for now</button>
+    </div>
+  </div>
+
+</body>
+
+</html>

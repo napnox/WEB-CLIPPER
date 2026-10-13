@@ -1,0 +1,204 @@
+/* Napnox Toolbar */
+#napnox-floating-toolbar {
+  position: absolute;
+  z-index: 2147483647;
+  background: rgba(15, 15, 24, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  user-select: none;
+}
+
+#napnox-floating-toolbar.napnox-toolbar-visible {
+  display: flex;
+}
+
+.napnox-color-picker {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.napnox-color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.napnox-color-dot:hover {
+  transform: scale(1.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.napnox-color-dot.gradient-dot {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4, #f472b6);
+}
+
+.napnox-toolbar-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.napnox-toolbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #8b5cf6;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.napnox-toolbar-btn:hover {
+  background: #7c3aed;
+  transform: translateY(-1px);
+}
+
+.napnox-toolbar-btn.captured {
+  background: #10b981 !important;
+  pointer-events: none;
+}
+
+.napnox-toolbar-btn svg {
+  flex-shrink: 0;
+}
+
+/* Highlights */
+::highlight(napnox-yellow) {
+  background-color: rgba(251, 191, 36, 0.4) !important;
+  color: black !important;
+}
+
+::highlight(napnox-green) {
+  background-color: rgba(52, 211, 153, 0.4) !important;
+  color: black !important;
+}
+
+::highlight(napnox-purple) {
+  background-color: rgba(167, 139, 250, 0.4) !important;
+}
+
+::highlight(napnox-pink) {
+  background-color: rgba(244, 114, 182, 0.4) !important;
+}
+
+::highlight(napnox-gradient) {
+  background-color: rgba(139, 92, 246, 0.3) !important;
+  text-decoration: underline wavy rgba(6, 182, 212, 0.6);
+}
+
+.napnox-highlight {
+  border-radius: 2px;
+  padding: 0 1px;
+  cursor: pointer;
+}
+
+/* Napnox Inline Sidebar */
+#napnox-inline-sidebar {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 320px;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+  z-index: 2147483647;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  border-left: 1px solid #e5e7eb;
+}
+
+#napnox-inline-sidebar.napnox-open {
+  right: 0 !important;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafb;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: #111827;
+  margin: 0;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-close:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: #fdfdfd;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#napnox-inline-sidebar .napnox-sidebar-card-text {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-card-meta {
+  font-size: 11px;
+  color: #9ca3af;
+  display: flex;
+  justify-content: space-between;
+}
+
+#napnox-inline-sidebar .napnox-sidebar-empty {
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+  padding: 40px 20px;
+}
